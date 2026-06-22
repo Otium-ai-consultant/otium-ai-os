@@ -73,33 +73,36 @@ Then **restart Claude Code** and run `/plugin` to confirm they're enabled.
 
 ---
 
-## Part B — Connect Obsidian (Local REST API MCP) (10 min)
+## Part B — Connect Obsidian via the Local REST API (10 min)
 
-This links your AI to Obsidian. **Your AI runs the connect command for you** — you just grab the key.
+This links your AI to the **live Obsidian app** through its Local REST API. **Keep Obsidian open**
+while you use the OS — the connector talks to the running app, not just the files. Your AI runs the
+connect command for you; you just grab the key.
 
 **Step 1 — Get your Obsidian key.**
 In Obsidian: **Settings → Community plugins → Browse →** install **"Local REST API" →** enable it →
-open its settings → **copy the API Key**.
+open its settings → **copy the API Key**. Leave Obsidian running.
 
-**Step 2 — Let your AI connect it.** Paste the key into the chat and tell your AI the full path to
-this folder; it runs the command below for you. (Prefer to run it yourself? It needs Node.js from
-`INSTALL-FIRST.md`, which includes `npx` — no Homebrew.)
+**Step 2 — Let your AI connect it.** Paste the key into the chat and your AI runs the command below
+for you. (Prefer to run it yourself? It needs Node.js from `INSTALL-FIRST.md`, which includes `npx` — no Homebrew.)
 ```bash
 claude mcp add obsidian -s user \
   -e OBSIDIAN_API_KEY=<YOUR_OBSIDIAN_API_KEY> \
-  -- npx -y mcp-obsidian "/ABSOLUTE/PATH/TO/THIS/FOLDER"
+  -- npx -y obsidian-mcp-server@latest
 ```
 > Editing config by hand instead? Add this under `mcpServers` in `~/.claude.json`:
 > ```json
 > "obsidian": {
 >   "type": "stdio",
 >   "command": "npx",
->   "args": ["-y", "mcp-obsidian", "/ABSOLUTE/PATH/TO/THIS/FOLDER"],
+>   "args": ["-y", "obsidian-mcp-server@latest"],
 >   "env": { "OBSIDIAN_API_KEY": "<YOUR_OBSIDIAN_API_KEY>" }
 > }
 > ```
+> Talks to the Local REST API — **no vault path needed**. Default endpoint is the plugin's local
+> port; set `OBSIDIAN_BASE_URL` only if you changed it.
 
-**Step 3 — Verify.** Restart Claude Code and ask: *"List the files in my Obsidian vault."* If it lists your notes, you're connected. Also open this folder in Obsidian (*Open folder as vault*) for the graph view.
+**Step 3 — Verify.** With Obsidian still open, restart Claude Code and ask: *"List the files in my Obsidian vault."* If it lists your notes, you're connected. Also open this folder as a vault in Obsidian for the graph view.
 
 ---
 
@@ -152,7 +155,7 @@ Setup's done. Now the AI builds your operating system **for** you.
 | `onboard` skill not available | Confirm you opened Claude Code **in this folder**; the skill is at `.claude/skills/onboard/SKILL.md`. |
 | Plugin / memory / Obsidian errors (`npx` not found) | Make sure **Node.js** is installed — run `setup.sh` / `setup.ps1`, or see `INSTALL-FIRST.md` step 2 — then restart Claude Code. |
 | Google tools don't appear | Connect them via **`/mcp`** or Claude **Connectors**, and make sure your Claude plan includes connectors. Then retry the calendar question. |
-| Obsidian connector returns nothing | Confirm **Local REST API** is enabled, the **key matches**, and the **vault path is absolute** (no `~`). Restart Claude Code. |
+| Obsidian connector returns nothing | Make sure **Obsidian is running**, the **Local REST API** plugin is enabled, and the **key matches**. Restart Claude Code. |
 | AI forgets context next session | Confirm **claude-mem** is enabled and **CLAUDE.md** exists in the folder you opened. |
 
 ---

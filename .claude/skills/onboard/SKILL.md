@@ -59,17 +59,19 @@ You **cannot** run `/plugin ...` yourself — those are user-typed slash command
 2. Tell them to **restart Claude Code**, then run `/onboard` again to continue.
 3. On the next run, re-read `installed_plugins.json`. If the three required — **superpowers, claude-mem, context-mode** — are present → mark Plugins ✓ (skill-creator is recommended too; install it but don't block on it). If a required one is missing → name exactly which and the matching command; don't move on.
 
-### 0.3 — Connect Obsidian (you run the command for them)
+### 0.3 — Connect Obsidian via the Local REST API (you run the command for them)
 
-1. Ask the user to, in Obsidian: **Settings → Community plugins → Browse →** install + enable **"Local REST API" →** open its settings → **copy the API Key**. Have them paste the key to you, and confirm the **absolute path** to this folder (their vault).
-2. With the key and path, **YOU run** (Bash) — the user does not type this:
+This goes through Obsidian's **Local REST API**, so **Obsidian must be running** with that plugin enabled — the server talks to the live app, not the files on disk.
+
+1. Ask the user to, in Obsidian: **Settings → Community plugins → Browse →** install + enable **"Local REST API" →** open its settings → **copy the API Key**. Have them paste the key to you. Make sure **Obsidian stays open**.
+2. With the key, **YOU run** (Bash) — the user does not type this:
    ```
-   claude mcp add obsidian -s user -e OBSIDIAN_API_KEY=<key> -- npx -y mcp-obsidian "<absolute-vault-path>"
+   claude mcp add obsidian -s user -e OBSIDIAN_API_KEY=<key> -- npx -y obsidian-mcp-server@latest
    ```
-   (Needs Node.js from `INSTALL-FIRST.md`, which includes `npx` — no Homebrew required.)
-3. Tell them to **restart Claude Code**, then run `/onboard` again.
-4. After the restart, verify by listing a couple of files from the vault via the Obsidian connection. If it works → mark Obsidian ✓.
-5. Also suggest they open this folder in Obsidian (*Open folder as vault*) for the graph view.
+   (Talks to the Local REST API — **no vault path needed**. Needs Node.js from `INSTALL-FIRST.md`, which includes `npx`; no Homebrew.)
+3. Tell them to **restart Claude Code** (keeping Obsidian open), then run `/onboard` again.
+4. After the restart, verify by listing/searching a couple of notes via the Obsidian connection. If it works → mark Obsidian ✓.
+5. Also suggest they open this folder as a vault in Obsidian for the graph view.
 6. **Never echo the API key back** in plain text in any summary or recap.
 
 ### 0.4 — Connect Google via Claude's built-in connector (required)
