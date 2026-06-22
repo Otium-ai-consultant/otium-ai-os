@@ -146,6 +146,7 @@ Setup's done. Now the AI builds your operating system **for** you.
 | Problem | Fix |
 |---|---|
 | `/plugin` browser empty / plugins won't install | Use the **`claude plugin`** CLI instead (Part A): `claude plugin install <name>@<marketplace>` from the terminal. Make sure Claude Code is up to date (the native install auto-updates). |
+| Superpowers installed but `/using-superpowers` "doesn't work" | It's **not a command** — Superpowers loads automatically at the start of each session. **Restart Claude Code.** To use it, just describe your task, or run `/brainstorm`, `/write-plan`, `/execute-plan`. Check `claude plugin list` shows it **enabled**. |
 | `onboard` skill not available | Confirm you opened Claude Code **in this folder**; the skill is at `.claude/skills/onboard/SKILL.md`. |
 | Plugin / memory / Obsidian errors (`npx` not found) | Make sure **Node.js** is installed — run `setup.sh` / `setup.ps1`, or see `INSTALL-FIRST.md` step 2 — then restart Claude Code. |
 | Google tools don't appear | Connect them via **`/mcp`** or Claude **Connectors**, and make sure your Claude plan includes connectors. Then retry the calendar question. |

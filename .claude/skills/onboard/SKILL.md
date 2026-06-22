@@ -58,10 +58,12 @@ claude plugin install context-mode@context-mode
 ```
 
 1. Run these via Bash. A `marketplace add` that already exists just no-ops — ignore "already added".
-2. Verify with `claude plugin list` (or re-read `~/.claude/plugins/installed_plugins.json`). Mark Plugins ✓ once **superpowers, claude-mem, context-mode** are present (skill-creator recommended, non-blocking).
+2. Verify with `claude plugin list` — each should show **enabled** (and scope **user**). If one shows disabled, run `claude plugin enable <name>@<marketplace>`. Mark Plugins ✓ once **superpowers, claude-mem, context-mode** are present and enabled (skill-creator recommended, non-blocking).
 3. Tell the user to **restart Claude Code** so the plugins load, then re-run `/onboard` to continue.
 
 > Only if the CLI errors: fall back to having the user type the same as `/plugin marketplace add …` / `/plugin install …@…` slash commands.
+>
+> **Tell the user:** there is **no `/using-superpowers` command to type** — Superpowers auto-runs at the start of each session (after a restart) via its hook. Its actual slash commands are `/brainstorm`, `/write-plan`, `/execute-plan`; other skills the AI invokes on its own when relevant. So "installed but `/using-superpowers` doesn't work" almost always just means **restart Claude Code**.
 
 ### 0.3 — Connect Google via Claude's built-in connector (required)
 
