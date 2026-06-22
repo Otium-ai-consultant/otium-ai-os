@@ -1,0 +1,21 @@
+# OS / editor junk
+.DS_Store
+*.log
+Thumbs.db
+
+# Obsidian local workspace (each user generates their own)
+.obsidian/
+
+# Local Claude Code state (keep .claude/skills/ tracked)
+.claude/settings.local.json
+
+# Plugin local data / caches
+.claude-mem/
+.context-mode/
+*.sqlite
+*.db
+
+# Secrets — never commit
+.env
+.env.*
+*client_secret*.json
