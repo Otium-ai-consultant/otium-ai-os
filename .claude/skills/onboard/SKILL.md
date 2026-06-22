@@ -12,7 +12,7 @@ This is the **installer for the whole OS**, and it runs in two phases — **in t
 
 **The order is deliberate and non-negotiable: setup BEFORE questions.** A half-set-up OS that starts interviewing feels broken and fragmented ("rantakan"). A fully-wired one feels fluent from the first minute. Never reverse this.
 
-**You do the heavy lifting, not the user.** The only things the user installs by hand are Claude Code and Node.js (see `INSTALL-FIRST.md`). Inside this skill: plugin installs are slash commands the user types; Google is a browser click; Obsidian works directly with no setup. (If the user opts into the optional Obsidian REST API power-up, **you** run the `claude mcp add` command for them.)
+**You do the heavy lifting, not the user.** The only things the user installs by hand are Claude Code and Node.js (see `INSTALL-FIRST.md`). Inside this skill: **you** install the plugins via the `claude plugin` CLI (not the flaky `/plugin` browser); Google is a browser click; Obsidian works directly with no setup. (If the user opts into the optional Obsidian REST API power-up, **you** run the `claude mcp add` command for them.)
 
 **Resumable.** Plugins need a Claude Code restart, so this skill is built to be re-run. After a restart the user just runs `/onboard` again (or says "continue onboarding") — each run re-checks state and continues from the first unmet step.
 
@@ -43,21 +43,25 @@ Setup status:
   [·] Obsidian vault open   (native — just open the folder as a vault)
 ```
 
-### 0.2 — Install the plugins (user types the commands; you verify)
+### 0.2 — Install the plugins (YOU run the `claude plugin` CLI — never the `/plugin` browser)
 
-You **cannot** run `/plugin ...` yourself — those are user-typed slash commands and need a restart to load. Guide, then verify:
+The interactive `/plugin` browser is often unavailable on a fresh CLI install — that's the #1 thing that blocks people. So **install via the `claude plugin` command yourself** (Bash). It's reliable and needs no marketplace UI:
 
-1. Ask the user to paste these into Claude Code, one block at a time:
-   ```
-   /plugin install superpowers@claude-plugins-official
-   /plugin install skill-creator@claude-plugins-official
-   /plugin marketplace add thedotmack/claude-mem
-   /plugin install claude-mem@thedotmack
-   /plugin marketplace add mksglu/context-mode
-   /plugin install context-mode@context-mode
-   ```
-2. Tell them to **restart Claude Code**, then run `/onboard` again to continue.
-3. On the next run, re-read `installed_plugins.json`. If the three required — **superpowers, claude-mem, context-mode** — are present → mark Plugins ✓ (skill-creator is recommended too; install it but don't block on it). If a required one is missing → name exactly which and the matching command; don't move on.
+```
+claude plugin marketplace add anthropics/claude-plugins-official
+claude plugin install superpowers@claude-plugins-official
+claude plugin install skill-creator@claude-plugins-official
+claude plugin marketplace add thedotmack/claude-mem
+claude plugin install claude-mem@thedotmack
+claude plugin marketplace add mksglu/context-mode
+claude plugin install context-mode@context-mode
+```
+
+1. Run these via Bash. A `marketplace add` that already exists just no-ops — ignore "already added".
+2. Verify with `claude plugin list` (or re-read `~/.claude/plugins/installed_plugins.json`). Mark Plugins ✓ once **superpowers, claude-mem, context-mode** are present (skill-creator recommended, non-blocking).
+3. Tell the user to **restart Claude Code** so the plugins load, then re-run `/onboard` to continue.
+
+> Only if the CLI errors: fall back to having the user type the same as `/plugin marketplace add …` / `/plugin install …@…` slash commands.
 
 ### 0.3 — Connect Google via Claude's built-in connector (required)
 
@@ -158,7 +162,7 @@ When the user runs the closing prompt ("what should I focus on this week?"), ans
 
 1. **Setup before questions. Never reverse the order, never ask which to do first.** On the first session this runs automatically before anything else (the CLAUDE.md setup gate + the SessionStart hook enforce it). Phase 0 gates Phase 1 — a fluent start, not a fragmented one.
 2. **Resumable across restarts.** Every run re-checks `installed_plugins.json` and the available Google connector tools and continues from the first unmet step. Re-running never re-does completed work.
-3. **You do the terminal work, not the user.** You can't run `/plugin` (user-typed + needs restart) or click the Google browser consent — guide and verify those. The only by-hand installs are Claude Code + Node.js (`INSTALL-FIRST.md`). If the user opts into the Obsidian REST API power-up, you run its `claude mcp add` yourself.
+3. **You do the terminal work, not the user.** Install plugins yourself with the `claude plugin` CLI via Bash — never depend on the interactive `/plugin` browser (often unavailable on a fresh install). You can't click the Google browser consent — guide that. The only by-hand installs are Claude Code + Node.js (`INSTALL-FIRST.md`). If the user opts into the Obsidian REST API power-up, you run its `claude mcp add` yourself.
 4. **Never echo API keys or OAuth secrets** back in plain text — not in summaries, not in recaps.
 5. **Required setup is strict and runs first, in fixed order — no choosing, no skipping:** plugins (Superpowers, claude-mem, context-mode) + Google. Obsidian is native (no setup, never blocks); its Local REST API MCP is an optional power-up the user can decline.
 6. **Intake is optional; only the cap is firm.** Don't exceed 7 questions, but every answer can be skipped — and the user may instead drop a file to ingest, or skip intake entirely. Never force voice samples: recommend, accept "no." One-shot scaffold after intake. Idempotent. Closing screen is three lines.

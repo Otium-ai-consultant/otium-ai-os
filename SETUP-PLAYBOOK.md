@@ -36,27 +36,27 @@ Claude plan that includes connectors (e.g. Pro / Max / Team) for the Google step
 
 ---
 
-## Part A — Install the Claude Code plugins (10 min)
+## Part A — Install the Claude Code plugins (5 min)
 
-Open Claude Code **in this folder**, then paste these into the chat **one block at a time**. (These are slash commands you type — not terminal commands.) Two live in their own marketplace, so you add the marketplace first, then install.
+**You barely do this — `onboard` runs it for you.** When you open the folder and start, your AI
+installs the plugins using the **`claude plugin` command line** — *not* the interactive `/plugin`
+browser, which often isn't ready on a fresh install (the #1 thing that trips people up).
 
-```text
-# Superpowers — disciplined AI workflows
-/plugin install superpowers@claude-plugins-official
-
-# Skill Creator — lets your AI build its own custom skills for your business
-/plugin install skill-creator@claude-plugins-official
-
-# Claude Mem — long-term cross-session memory
-/plugin marketplace add thedotmack/claude-mem
-/plugin install claude-mem@thedotmack
-
-# Context Mode — context efficiency on big reads
-/plugin marketplace add mksglu/context-mode
-/plugin install context-mode@context-mode
+Doing it by hand? Paste these into your **terminal**:
+```bash
+claude plugin marketplace add anthropics/claude-plugins-official   # ignore "already added"
+claude plugin install superpowers@claude-plugins-official
+claude plugin install skill-creator@claude-plugins-official
+claude plugin marketplace add thedotmack/claude-mem
+claude plugin install claude-mem@thedotmack
+claude plugin marketplace add mksglu/context-mode
+claude plugin install context-mode@context-mode
 ```
 
-Then **restart Claude Code** and run `/plugin` to confirm they're enabled.
+Then **restart Claude Code** and run `claude plugin list` to confirm they're installed.
+
+> Fallback only: the same can be typed as `/plugin marketplace add …` / `/plugin install …@…`
+> slash commands in the chat — but the CLI above is the reliable path.
 
 **What each one does:**
 - **Superpowers** — a library of disciplined workflows (planning, debugging, review). Better habits, not just answers.
@@ -145,7 +145,7 @@ Setup's done. Now the AI builds your operating system **for** you.
 
 | Problem | Fix |
 |---|---|
-| `/plugin install` can't find the plugin | Re-run the matching `marketplace add` line first (for claude-mem / context-mode), then restart Claude Code. |
+| `/plugin` browser empty / plugins won't install | Use the **`claude plugin`** CLI instead (Part A): `claude plugin install <name>@<marketplace>` from the terminal. Make sure Claude Code is up to date (the native install auto-updates). |
 | `onboard` skill not available | Confirm you opened Claude Code **in this folder**; the skill is at `.claude/skills/onboard/SKILL.md`. |
 | Plugin / memory / Obsidian errors (`npx` not found) | Make sure **Node.js** is installed — run `setup.sh` / `setup.ps1`, or see `INSTALL-FIRST.md` step 2 — then restart Claude Code. |
 | Google tools don't appear | Connect them via **`/mcp`** or Claude **Connectors**, and make sure your Claude plan includes connectors. Then retry the calendar question. |
