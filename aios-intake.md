@@ -6,9 +6,11 @@ tags: [onboarding]
 
 # AI OS Intake — Answer these 7, or let `onboard` ask you
 
-You can pre-fill this file, or just run the **`onboard`** skill and answer conversationally —
-it writes your answers here as you go. Leave anything you're unsure about as
-`[Your answer here]`; you can refine later and re-run `onboard`.
+**Everything here is optional.** Two ways to give the OS context — do either, both, or neither:
+- **Answer the questions** below (pre-fill here, or run `/onboard` and answer in chat — skip any you want).
+- **Or just drop a file** — a company profile, your bio, a deck, an "about me" doc, even a few past emails. Paste it or attach it in the chat during `/onboard` and the OS will read it and fill these in for you.
+
+Leave anything blank as `[Your answer here]`; you can refine later and re-run `/onboard`.
 
 ---
 
@@ -17,8 +19,8 @@ it writes your answers here as you go. Leave anything you're unsure about as
 
 [Your answer here]
 
-## Q2 — Paste 1–2 things you've written recently. Don't edit them.
-*(Voice samples. Paste raw from a real email or post — do NOT type fresh prose here. This is how the OS learns to sound like you.)*
+## Q2 — How do you sound?  *(optional, recommended)*
+*(Voice samples. If you can, paste 1–2 things you've written recently — an email or post — raw and unedited; that's how the OS learns to sound like you. Prefer not to? Skip it — the OS just won't write in your voice until you add samples.)*
 
 [Paste sample 1 here]
 

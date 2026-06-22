@@ -22,7 +22,7 @@ Update `mechanism`, `auth`, and `last checked` as each one goes live.
 
 ## Live now (after the playbook)
 - **Obsidian** — `mcp-obsidian` MCP, points at this folder. (Part B)
-- **Google Workspace** — `workspace-mcp` MCP: Gmail, Calendar, Drive, Docs, Sheets. (Part C)
+- **Google Workspace** — official `gws` CLI (`@googleworkspace/cli`): Gmail, Calendar, Drive, Docs, Sheets. Driven via the shell. (Part C)
 
 ## Connected
 - [[CLAUDE]]

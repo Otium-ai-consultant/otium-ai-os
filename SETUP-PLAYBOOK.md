@@ -35,8 +35,7 @@ Install these once. If you already have them, skip.
 |---|---|---|
 | **Claude Code** | The AI agent you'll run everything in | claude.com/claude-code |
 | **Obsidian** | Your notes app / knowledge vault | obsidian.md |
-| **Node.js** | Lets the Obsidian connector run (`npx`) | nodejs.org (LTS) |
-| **uv / uvx** | Lets the Google connector run | `curl -LsSf https://astral.sh/uv/install.sh \| sh` (Mac/Linux) |
+| **Node.js 18+** | Runs the Obsidian + Google connectors (`npx`, `gws`) | nodejs.org (LTS) |
 | **A Google account** | Gmail / Workspace — free accounts work | — |
 
 > **Tip:** This folder should be BOTH your AI OS **and** your Obsidian vault. In Obsidian, choose *"Open folder as vault"* and point it at **this folder**.
@@ -113,40 +112,33 @@ claude mcp add obsidian -s user \
 
 ---
 
-## Part C — Connect Google Workspace (15–20 min) — the one technical part
+## Part C — Connect Google Workspace via the `gws` CLI (15–20 min) — the one technical part
 
-We use the **`workspace-mcp`** connector (Gmail, Calendar, Drive, Docs, Sheets, Slides). Google requires a one-time OAuth setup so the AI acts as *you*, securely.
+We use **Google's own Google Workspace CLI** — [`@googleworkspace/cli`](https://github.com/googleworkspace/cli), the `gws` command. It covers Gmail, Calendar, Drive, Docs, Sheets, Chat and more, and returns structured JSON the AI reads directly. (Requires **Node.js 18+** and a **Google account**.)
 
-**Step 1 — Create Google credentials.**
-1. Go to **console.cloud.google.com** → create a **new project** (e.g. "My AI OS").
-2. **APIs & Services → Enable APIs** → enable the ones you'll use: **Google Calendar, Gmail, Drive, Docs, Sheets** (Slides optional).
-3. **OAuth consent screen** → choose **External** → fill app name + your email → under **Test users**, add your own Google email.
-4. **Credentials → Create credentials → OAuth client ID → Desktop app** (or Web app).
-   - If asked for a redirect URI, add: `http://localhost:8000/oauth2callback`
-5. **Copy** the **Client ID** and **Client Secret**.
-
-**Step 2 — Add the connector:**
-
+**Step 1 — Install the CLI:**
 ```bash
-claude mcp add workspace -s user \
-  -e GOOGLE_OAUTH_CLIENT_ID=<YOUR_CLIENT_ID> \
-  -e GOOGLE_OAUTH_CLIENT_SECRET=<YOUR_CLIENT_SECRET> \
-  -- uvx workspace-mcp --tool-tier core
+npm install -g @googleworkspace/cli
+```
+Optional — add Google's ready-made agent skills so your AI has a recipe for every Workspace API:
+```bash
+npx skills add https://github.com/googleworkspace/cli
 ```
 
-> JSON alternative (under `mcpServers` in `~/.claude.json`):
-> ```json
-> "workspace": {
->   "command": "uvx",
->   "args": ["workspace-mcp", "--tool-tier", "core"],
->   "env": {
->     "GOOGLE_OAUTH_CLIENT_ID": "<YOUR_CLIENT_ID>",
->     "GOOGLE_OAUTH_CLIENT_SECRET": "<YOUR_CLIENT_SECRET>"
->   }
-> }
-> ```
+**Step 2 — Set up + authenticate:**
+```bash
+gws auth setup     # walks you through the Google Cloud project + OAuth config
+gws auth login     # opens a URL — sign in, approve the scopes
+```
+`gws auth setup` handles the Google Cloud project and OAuth credentials for you — no manual "create an OAuth client" dance. If your account isn't allowed yet, open the [OAuth consent screen](https://console.cloud.google.com/apis/credentials/consent) → **Test users** → add your Google email, then retry `gws auth login`.
 
-**Step 3 — First-run sign-in.** Restart Claude Code and ask: *"What's on my Google Calendar this week?"* A browser window opens → sign in → **Allow**. Done once, remembered after.
+> Tip: your AI can run these for you and even drive the sign-in — it opens the URL, you pick your account and approve, and it takes back over once the browser hands control back.
+
+**Step 3 — Verify:**
+```bash
+gws drive files list --params '{"pageSize": 5}'
+```
+If it lists files (or returns an empty list with no error), you're connected. From now on the AI calls `gws` to read and write your Gmail, Calendar, and Drive.
 
 > ⚠️ This is the only step that can trip people up (Google Cloud is fiddly). If you get stuck, stop here and book the OTIUM setup call — we'll finish it with you.
 
@@ -186,8 +178,8 @@ Everything's installed. Now the AI builds your operating system **for** you.
 | `/plugin install` can't find the plugin | Re-run the matching `marketplace add` line first (for claude-mem / context-mode), then restart Claude Code. |
 | `onboard` skill not available | Confirm you opened Claude Code **in this folder**; the skill is at `.claude/skills/onboard/SKILL.md`. |
 | Obsidian connector returns nothing | Confirm the **Local REST API** plugin is **enabled**, the **API key matches**, and the **vault path is absolute** (no `~`). |
-| Google sign-in won't open / "access blocked" | Make sure your email is added as a **Test user** on the OAuth consent screen, and the right **APIs are enabled**. |
-| `uvx` / `npx` "command not found" | Install **uv** (Part C) / **Node.js** (Prerequisites), then restart your terminal. |
+| Google sign-in "access blocked" | Add your email as a **Test user** on the [OAuth consent screen](https://console.cloud.google.com/apis/credentials/consent), then retry `gws auth login`. |
+| `gws` / `npx` "command not found" | Install **Node.js 18+** (Prerequisites), then `npm install -g @googleworkspace/cli`, then restart your terminal. |
 | AI forgets context next session | Confirm **claude-mem** is enabled, and that **CLAUDE.md** exists in the folder you opened. |
 
 ---

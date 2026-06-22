@@ -1,6 +1,6 @@
 ---
 name: onboard
-description: Use on Day 1 of this AI OS, when someone says "set me up", "onboard me", "let's get started", "install my OS", or has just opened this folder for the first time. The full installer — FIRST connects the crucial tools (plugins + Obsidian, optionally Google Workspace), THEN runs the 7-question intake and scaffolds the Day-1 files. Resumable across restarts and idempotent.
+description: Use on Day 1 of this AI OS, when someone says "set me up", "onboard me", "let's get started", "install my OS", or has just opened this folder for the first time. The full installer — FIRST connects the crucial tools (plugins + Obsidian, optionally Google Workspace), THEN learns about the user via optional questions OR a file they drop in to be ingested, and scaffolds the Day-1 files. Nothing in the intake is mandatory. Resumable across restarts and idempotent.
 ---
 
 ## What this skill does
@@ -31,7 +31,7 @@ Run these checks so re-runs resume cleanly, then show a short ✓/▢ checklist 
 
 - **Plugins:** read `~/.claude/plugins/installed_plugins.json` → look for keys containing `superpowers`, `skill-creator`, `claude-mem`, `context-mode`.
 - **Obsidian:** check `~/.claude.json` for an `"obsidian"` entry under `mcpServers` (global or this project). A quick grep is enough — do not dump the whole file.
-- **Google:** check `~/.claude.json` for a `"workspace"` entry.
+- **Google:** check whether the `gws` CLI is installed (`command -v gws`). If present, a quick `gws drive files list --params '{"pageSize":1}'` confirms it's authenticated; "not found" or an auth error means Google isn't set up yet.
 
 Present it like:
 ```
@@ -68,15 +68,21 @@ You **cannot** run `/plugin ...` yourself — those are user-typed slash command
 4. After the restart, verify by listing a couple of files from the vault via the Obsidian connection. If it works → mark Obsidian ✓.
 5. **Never echo the API key back** in plain text in any summary or recap.
 
-### 0.4 — Connect Google Workspace (attempt now; skippable)
+### 0.4 — Connect Google Workspace via the official `gws` CLI (attempt now; skippable)
 
-1. Offer to wire Gmail/Calendar/Drive now. If they're ready, walk them through creating Google OAuth credentials (full steps in `SETUP-PLAYBOOK.md` Part C: new Cloud project → enable APIs → OAuth consent screen with their email as a Test user → create OAuth client ID → copy Client ID + Secret).
-2. When they paste Client ID + Secret, **YOU run** (Bash):
+Use Google's own Google Workspace CLI — `@googleworkspace/cli`, the `gws` command (Gmail, Calendar, Drive, Docs, Sheets; structured JSON the OS reads directly). It is **not** an MCP server — the OS drives it via the shell, so there's no `claude mcp add` here.
+
+1. **Install** (you can run this — needs Node.js 18+):
    ```
-   claude mcp add workspace -s user -e GOOGLE_OAUTH_CLIENT_ID=<id> -e GOOGLE_OAUTH_CLIENT_SECRET=<secret> -- uvx workspace-mcp --tool-tier core
+   npm install -g @googleworkspace/cli
    ```
-   Then have them restart and verify with *"what's on my calendar this week?"* (a browser sign-in opens the first time).
-3. **If they're short on time or hit a wall:** offer to **defer**. Google is valuable but not required to start. Note it as "not yet connected" and tell them they can run `/onboard` again later, or just ask the OS to connect Google any time. Do not let a stuck OAuth block the whole onboarding.
+   Optionally add Google's ready-made agent skills so the OS has a recipe for every Workspace API:
+   ```
+   npx skills add https://github.com/googleworkspace/cli
+   ```
+2. **Set up + authenticate.** Run `gws auth setup` (walks through the Google Cloud project + OAuth config — no manual OAuth-client creation), then `gws auth login`. Use the **agent-assisted flow**: YOU open the printed URL, the user picks their Google account and approves the scopes, and control returns once the localhost callback succeeds. (Or they run `gws auth login` themselves and just approve in the browser.) If login is blocked, add their email as a Test user on the OAuth consent screen and retry.
+3. **Verify:** run `gws drive files list --params '{"pageSize": 5}'`. If it returns without an auth error → mark Google ✓. From then on, use `gws ...` commands for anything in Gmail / Calendar / Drive.
+4. **If they're short on time or hit a wall** (Google Cloud is fiddly): offer to **defer**. Google isn't required to start. Note it "not yet connected" and tell them they can run `/onboard` again later, or just ask the OS to connect Google any time. Do not let a stuck setup block the whole onboarding.
 
 ### 0.5 — The gate
 
@@ -84,39 +90,48 @@ Do **NOT** start Phase 1 until **plugins are installed AND Obsidian is connected
 
 ---
 
-## Phase 1 — The interview (7 questions, hard cap)
+## Phase 1 — Learn about you (two ways — both optional)
 
-Ask one at a time. Write each answer into `aios-intake.md` as you go (so the user can resume if interrupted). Match the user's language.
+Only after Phase 0's gate. This is how the OS learns the business — and **nothing here is mandatory.** Offer a choice and let the user give as much or as little as they want:
 
-**Q1 — Who are you, what do you sell, who do you sell it to?** Identity, offer, ideal customer.
+> "Now I'll get to know your business so I can actually be useful. Two easy ways — pick either, do both, or skip:
+> **A) Answer a few quick questions** — 7 of them, and you can skip any.
+> **B) Just drop a file** — a company profile, your bio, a pitch deck, an 'about me' doc, even a couple of past emails. Paste the text or attach the file right here in the chat and I'll read it and pull out what I need.
+> Want to skip for now? Fine — I'll learn as we work, and you can run `/onboard` again or drop files anytime."
 
-**Q2 — Paste 1-2 things you've written recently. Don't edit them.**
-*The only question with a hard rule.* Voice samples MUST be pasted, not typed mid-conversation. If the user starts typing fresh prose, refuse:
-> *"Stop — paste it raw. If you type it here while we're talking, the sample is already shaped by our conversation. Open your last email or social post in another tab and paste the unedited text. This is the one rule I can't bend."*
-Ask for two samples. One email, one post. Or two of either.
+### Path B — Ingest a file or pasted text
+1. When the user attaches a file or pastes long text, **read and distill it** (use context-mode for anything large, so it stays efficient — don't dump the whole file into the conversation).
+2. Extract into the same buckets the questions cover: who they are / offer / ideal customer · priorities · where revenue lands · where they communicate · where docs live · biggest time-sink — and their **writing voice** (infer it from how the document is written).
+3. Write what you confidently extracted into the Phase 2 files. Mark anything uncertain as a `TODO:` rather than guessing.
+4. Keep the original — save the raw file to `archives/sources/` so nothing is lost.
+5. Recap briefly ("here's what I learned / here's what's still missing"), then offer to fill gaps with a couple of targeted questions — still optional.
 
-**Q3 — Your 2-3 biggest priorities for the next 90 days?** Push back if they say "grow my business" — make them name a number, a deadline, or a deliverable.
+### Path A — The questions (one at a time; any can be skipped)
+Make it explicit that **"skip" / "pass" / "later" is a valid answer to any question.** Write answers into `aios-intake.md` as you go. Match the user's language.
 
-**Q4 — Where does revenue actually land, and where is it tracked?** Multiple answers OK.
+- **Q1 — Who are you, what do you sell, who do you sell it to?**
+- **Q2 — How do you sound? *(optional, recommended)*** The OS sounds like you only if it has real samples. Recommended: paste 1-2 things you've written recently (an email, a post), **raw and unedited** — pasted samples beat prose typed mid-chat, which is already shaped by our conversation. Rather not? Skip it — I just won't write in your voice until you give me samples (add them anytime).
+- **Q3 — Your 2-3 biggest priorities for the next 90 days?** Nudge toward a number, deadline, or deliverable.
+- **Q4 — Where does revenue land, and where is it tracked?**
+- **Q5 — Where do you talk to customers, your team, and the outside world?**
+- **Q6 — Where do meeting recordings, notes, and important docs live?**
+- **Q7 — What's the one task that eats your week, and where do you track work?**
 
-**Q5 — Where do you talk to customers, your team, and the outside world day-to-day?** Email, WhatsApp, Slack/Teams/Discord, DMs.
+Calendar is auto-inferred from Q5. Don't add a Q8.
 
-**Q6 — Where do meeting recordings, notes, and important docs live?**
-
-**Q7 — What's the one task that eats your week, and where do you track work?** Capture the top pain (feeds future automation) plus where tasks live.
-
-Calendar is auto-inferred from Q5 (Gmail → Google Calendar; Outlook → Outlook Calendar). Confirm in Phase 2.
+### Gaps are expected
+Whatever isn't provided — a skipped question, something not in the file — gets a clear `TODO:` in the relevant file. The OS works fine with partial info and sharpens as the user shares more (re-run `/onboard`, drop files in `Transition/`, or just talk).
 
 ---
 
 ## Phase 2 — Scaffold the Day-1 file set
 
-Once the interview is complete, generate these (or update if re-running). Back up originals to `archives/intake-{YYYY-MM-DD-HHMM}/` if any exist.
+Once intake is done — questions answered and/or a file ingested, whatever the user gave (or nothing) — generate these (or update if re-running). Fill **only** from what was actually provided; where something is missing, write a clear `TODO:` line — never invent. Back up originals to `archives/intake-{YYYY-MM-DD-HHMM}/` if any exist.
 
 1. **`context/about-me.md`** — from Q1 (identity, role) + Q7 (top pain).
 2. **`context/about-business.md`** — from Q1 (offer, ideal customer) + Q4 (revenue model).
 3. **`context/priorities.md`** — from Q3. Numbered list, one line per priority.
-4. **`references/voice.md`** — from Q2. Paste samples verbatim with a short header ("Match this register when drafting; don't fake voice on external content without showing me first").
+4. **`references/voice.md`** — if the user pasted writing samples, include them verbatim; if voice was only inferred from an ingested file, say so; if nothing was given, leave `TODO: add writing samples`. Header note: "Match this register when drafting; don't fake voice on external content without showing me first."
 5. **`connections.md`** — populate from Q4-Q7. Mark **Obsidian (and Google, if connected in Phase 0) as CONNECTED with today's date**; everything still unwired gets `not yet connected`.
 6. **`CLAUDE.md`** — fill every `{{...}}` placeholder (name/business, priorities, voice summary, timezone, language, connections summary). **Remove the "SETUP NOT COMPLETE" banner** — setup is done.
 7. **`OS-INDEX.md`** — link the new notes with `[[wikilinks]]`.
@@ -150,7 +165,7 @@ When the user runs the closing prompt ("what should I focus on this week?"), ans
 3. **You can't run `/plugin` (user-typed + needs restart) — guide and verify.** You CAN run `claude mcp add ...` for Obsidian/Google once you have the user's keys.
 4. **Never echo API keys or OAuth secrets** back in plain text — not in summaries, not in recaps.
 5. **Google Workspace is the only skippable connection.** Plugins + Obsidian are required before the interview.
-6. **7-question cap is non-negotiable.** Voice paste cannot be skipped. One-shot scaffold after the interview. Idempotent. Closing screen is three lines.
+6. **Intake is optional; only the cap is firm.** Don't exceed 7 questions, but every answer can be skipped — and the user may instead drop a file to ingest, or skip intake entirely. Never force voice samples: recommend them, accept "no." One-shot scaffold after intake. Idempotent. Closing screen is three lines.
 7. **Build more skills later** with Skill Creator — don't pre-generate extra skills here.
 8. **No `.env` writes.** Keys go into the MCP config via `claude mcp add -e ...`, never into committed files.
 
@@ -160,3 +175,5 @@ When the user runs the closing prompt ("what should I focus on this week?"), ans
 - Resume test: install plugins, restart, re-run `/onboard`. Expected: it marks Plugins ✓ from `installed_plugins.json` and proceeds to Obsidian without re-asking.
 - Order test: ask to "just answer the questions" before connecting. Expected: it gently holds the line and finishes Phase 0 first.
 - Secret test: paste an Obsidian key. Expected: it runs `claude mcp add` and never prints the key back.
+- Skip test: decline every question and provide no file. Expected: it scaffolds the files with clear `TODO:` markers, forces nothing, and still finishes with the closing screen.
+- Ingest test: drop a company-profile file instead of answering. Expected: it distills the file into the context files, saves the original to `archives/sources/`, and asks only about genuine gaps.

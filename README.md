@@ -14,7 +14,9 @@ Workspace.
    - **First** it connects your crucial tools — installs the plugins (skills, memory,
      context-efficiency) and wires up Obsidian (and Google Workspace if you're ready).
      It'll ask you to restart Claude Code once or twice; just run `/onboard` again to resume.
-   - **Then** it interviews you for ~10 minutes and builds the rest of your OS automatically.
+   - **Then** it learns about you — **two ways, both optional:** answer a few quick questions
+     (skip any you like), or just drop a file (company profile, bio, deck, past emails) into the
+     chat and it'll read it. Then it builds the rest of your OS automatically.
 3. Ask it: **"What should I focus on this week?"** — that's the moment it clicks.
 
 > Why this order? So the OS is fully connected *before* it starts learning about you — the
@@ -34,7 +36,7 @@ Workspace.
 
 ## The three skills you get on day one
 
-- **`onboard`** — sets up your whole OS: connects your tools first, then interviews you. Run this first.
+- **`onboard`** — sets up your whole OS: connects your tools first, then learns about you (answer a few questions or drop a file — both optional). Run this first.
 - **`grill-me`** — get relentlessly interviewed about any plan or idea; it saves everything to a doc so nothing is lost.
 - **`session-handoff`** — a clean end-of-session summary so you can start fresh tomorrow without losing the thread.
 

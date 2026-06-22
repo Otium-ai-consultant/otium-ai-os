@@ -6,7 +6,8 @@
 > **Run the `onboard` skill — type `/onboard` or say *"onboard me"*.**
 >
 > Onboarding connects your crucial tools **first** (plugins + Obsidian, optionally Google
-> Workspace) so the OS is fully live, *then* interviews you and fills in everything below.
+> Workspace) so the OS is fully live, *then* learns about you — answer a few questions (skip
+> any) or just drop a file about your business — and fills in everything below.
 > (`SETUP-PLAYBOOK.md` is the detailed manual it follows — read it only if you want the
 > background or get stuck.)
 
@@ -55,8 +56,10 @@ listing related `[[wikilinks]]` so nothing is orphaned. **`OS-INDEX.md`** is the
 
 ## Calendar & Google Workspace
 - **Timezone:** {{TIMEZONE}}. **Language:** {{LANGUAGE}}.
-- When I mention any dated event / meeting / deadline / payment, use the Google Workspace
-  connection to put it on my calendar — but **never guess a date or time; ask me.**
+- Google Workspace runs through the official **`gws` CLI** (`@googleworkspace/cli`) — call it
+  via the shell (e.g. `gws calendar ...`, `gws gmail ...`, `gws drive ...`) for Gmail, Calendar, and Drive.
+- When I mention any dated event / meeting / deadline / payment, put it on my calendar via `gws`
+  — but **never guess a date or time; ask me.**
 
 ## Tools & memory (this OS runs on Claude Code)
 - **Superpowers** — disciplined workflows. At session start, the `using-superpowers` skill orients you.
