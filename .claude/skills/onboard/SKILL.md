@@ -1,13 +1,13 @@
 ---
 name: onboard
-description: Use on Day 1 of this AI OS, when someone says "set me up", "onboard me", "let's get started", "install my OS", or has just opened this folder for the first time. The full installer — FIRST connects the crucial tools (plugins + Obsidian, optionally Google Workspace), THEN learns about the user via optional questions OR a file they drop in to be ingested, and scaffolds the Day-1 files. Nothing in the intake is mandatory. Resumable across restarts and idempotent.
+description: Use on the FIRST session of this AI OS — automatically, before responding to any other request — and whenever someone says "set me up", "onboard me", "install my OS", or opens this folder for the first time. The full installer: FIRST connects the crucial tools in a fixed order with no skipping and no asking which to do first — Superpowers, claude-mem, context-mode plugins, Obsidian, and Google Workspace (gws) — THEN learns about the user via optional questions OR a file they drop in to be ingested, and scaffolds the Day-1 files. Setup is strict; the intake is optional. Resumable across restarts and idempotent.
 ---
 
 ## What this skill does
 
 This is the **installer for the whole OS**, and it runs in two phases — **in this exact order**:
 
-1. **Phase 0 — Connect first.** Install the Claude Code plugins (Superpowers, Skill Creator, claude-mem, context-mode) and wire up **Obsidian** (and Google Workspace if possible) **before anything else**, so the OS is fully *live* before it starts learning about the user.
+1. **Phase 0 — Connect first (strict).** Install the Claude Code plugins (Superpowers, claude-mem, context-mode; + skill-creator) and wire up **Obsidian** and **Google Workspace** **before anything else** — in a fixed order, with no skipping and no asking which to do first — so the OS is fully *live* before it starts learning about the user. On the first session this runs automatically, before any other request.
 2. **Phase 1+ — Then learn.** Only once the crucial connections are in place: run the 7-question interview, then scaffold the Day-1 file set.
 
 **The order is deliberate and non-negotiable: connections BEFORE questions.** A half-connected OS that starts interviewing feels broken and fragmented ("rantakan"). A fully-wired one feels fluent from the first minute — the graph works, memory works, the calendar works, right as it starts learning who they are. Never reverse this.
@@ -23,11 +23,11 @@ This is the **installer for the whole OS**, and it runs in two phases — **in t
 
 ## Phase 0 — Connect first (BEFORE any interview question)
 
-**Goal of this phase:** Superpowers + Skill Creator + claude-mem + context-mode installed, **and Obsidian connected**. Google Workspace too if the user is ready (it's the only skippable one). Do not enter Phase 1 until this goal is met.
+**Goal of this phase:** all of these connected — **Superpowers, claude-mem, context-mode** plugins (+ skill-creator) · **Obsidian** · **Google Workspace** (`gws`). Work them in this fixed order, automatically — **do not ask the user which to set up first, and do not offer to skip ahead to the questions.** Do not enter Phase 1 until every item passes.
 
 ### 0.1 — Detect current state (read-only)
 
-Run these checks so re-runs resume cleanly, then show a short ✓/▢ checklist and only work the ▢ items:
+Run these checks **silently, first thing** — they exist only so re-runs resume cleanly, never to ask the user what to do. Show a short ✓/▢ status, then immediately work every ▢ item in the fixed order below (no questions about ordering, no skipping):
 
 - **Plugins:** read `~/.claude/plugins/installed_plugins.json` → look for keys containing `superpowers`, `skill-creator`, `claude-mem`, `context-mode`.
 - **Obsidian:** check `~/.claude.json` for an `"obsidian"` entry under `mcpServers` (global or this project). A quick grep is enough — do not dump the whole file.
@@ -37,8 +37,8 @@ Present it like:
 ```
 Setup status:
   [✓] Plugins installed
-  [▢] Obsidian connected   ← next
-  [▢] Google Workspace     (optional)
+  [▢] Obsidian connected   ← doing this now
+  [▢] Google Workspace     ← then this
 ```
 
 ### 0.2 — Install the plugins (user runs the commands; you verify)
@@ -55,7 +55,7 @@ You **cannot** run `/plugin ...` yourself — those are user-typed slash command
    /plugin install context-mode@context-mode
    ```
 2. Tell them to **restart Claude Code**, then run `/onboard` again to continue.
-3. On the next run, re-read `installed_plugins.json`. If all four are present → mark Plugins ✓. If any are missing → name exactly which one and the matching command; don't move on.
+3. On the next run, re-read `installed_plugins.json`. If the three required — **superpowers, claude-mem, context-mode** — are present → mark Plugins ✓ (skill-creator is recommended too; install it but don't block on it). If any required one is missing → name exactly which and the matching command; don't move on.
 
 ### 0.3 — Connect Obsidian (you can do this for them)
 
@@ -68,7 +68,7 @@ You **cannot** run `/plugin ...` yourself — those are user-typed slash command
 4. After the restart, verify by listing a couple of files from the vault via the Obsidian connection. If it works → mark Obsidian ✓.
 5. **Never echo the API key back** in plain text in any summary or recap.
 
-### 0.4 — Connect Google Workspace via the official `gws` CLI (attempt now; skippable)
+### 0.4 — Connect Google Workspace via the official `gws` CLI (required)
 
 Use Google's own Google Workspace CLI — `@googleworkspace/cli`, the `gws` command (Gmail, Calendar, Drive, Docs, Sheets; structured JSON the OS reads directly). It is **not** an MCP server — the OS drives it via the shell, so there's no `claude mcp add` here.
 
@@ -82,11 +82,11 @@ Use Google's own Google Workspace CLI — `@googleworkspace/cli`, the `gws` comm
    ```
 2. **Set up + authenticate.** Run `gws auth setup` (walks through the Google Cloud project + OAuth config — no manual OAuth-client creation), then `gws auth login`. Use the **agent-assisted flow**: YOU open the printed URL, the user picks their Google account and approves the scopes, and control returns once the localhost callback succeeds. (Or they run `gws auth login` themselves and just approve in the browser.) If login is blocked, add their email as a Test user on the OAuth consent screen and retry.
 3. **Verify:** run `gws drive files list --params '{"pageSize": 5}'`. If it returns without an auth error → mark Google ✓. From then on, use `gws ...` commands for anything in Gmail / Calendar / Drive.
-4. **If they're short on time or hit a wall** (Google Cloud is fiddly): offer to **defer**. Google isn't required to start. Note it "not yet connected" and tell them they can run `/onboard` again later, or just ask the OS to connect Google any time. Do not let a stuck setup block the whole onboarding.
+4. **Google is required, not optional** — keep working it until it passes. Only if it is *genuinely* blocked right now (e.g. the user has no Google account on hand, or Google Cloud is down) do you record it as `blocked: <reason>` in `connections.md` and continue — saying you'll finish it the moment the blocker clears. A stuck step is the rare exception, never the default exit.
 
 ### 0.5 — The gate
 
-Do **NOT** start Phase 1 until **plugins are installed AND Obsidian is connected** (Google may be deferred). If the user tries to jump straight to the questions, hold the line gently: explain that connecting the crucial tools first is exactly what makes the OS fluent instead of fragmented, and it's a one-time ~10-minute step. Then continue Phase 0.
+Do **NOT** start Phase 1 until **all of it passes — plugins (Superpowers, claude-mem, context-mode) + Obsidian + Google Workspace** (the only exception: a genuinely-blocked Google, recorded as `blocked:` in `connections.md`). If the user tries to jump straight to the questions, hold the line firmly but kindly: the setup runs first, in full, because that's what makes the OS fluent instead of fragmented — it's a one-time ~10-minute step. Don't negotiate the order or skip items. Then continue Phase 0.
 
 ---
 
@@ -160,11 +160,11 @@ When the user runs the closing prompt ("what should I focus on this week?"), ans
 
 ## Critical implementation rules
 
-1. **Connections before questions. Never reverse the order.** This is the whole point — a fluent start, not a fragmented one. Phase 0 gates Phase 1.
+1. **Connections before questions. Never reverse the order, never ask which to do first.** On the first session this runs automatically before anything else (the CLAUDE.md setup gate + the SessionStart hook enforce it). Phase 0 gates Phase 1 — a fluent start, not a fragmented one.
 2. **Resumable across restarts.** Every run re-checks `installed_plugins.json` and `~/.claude.json` and continues from the first unmet step. Re-running never re-does completed work.
 3. **You can't run `/plugin` (user-typed + needs restart) — guide and verify.** You CAN run `claude mcp add ...` for Obsidian/Google once you have the user's keys.
 4. **Never echo API keys or OAuth secrets** back in plain text — not in summaries, not in recaps.
-5. **Google Workspace is the only skippable connection.** Plugins + Obsidian are required before the interview.
+5. **Setup is strict and runs first, in fixed order — no choosing, no skipping.** All of plugins (Superpowers, claude-mem, context-mode) + Obsidian + Google Workspace must pass before the interview. The *only* exception is a genuinely-blocked Google, recorded as `blocked:` in `connections.md`.
 6. **Intake is optional; only the cap is firm.** Don't exceed 7 questions, but every answer can be skipped — and the user may instead drop a file to ingest, or skip intake entirely. Never force voice samples: recommend them, accept "no." One-shot scaffold after intake. Idempotent. Closing screen is three lines.
 7. **Build more skills later** with Skill Creator — don't pre-generate extra skills here.
 8. **No `.env` writes.** Keys go into the MCP config via `claude mcp add -e ...`, never into committed files.

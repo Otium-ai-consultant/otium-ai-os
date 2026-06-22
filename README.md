@@ -20,7 +20,9 @@ Workspace.
 3. Ask it: **"What should I focus on this week?"** — that's the moment it clicks.
 
 > Why this order? So the OS is fully connected *before* it starts learning about you — the
-> experience is fluent from minute one instead of fragmented. `SETUP-PLAYBOOK.md` is the
+> experience is fluent from minute one instead of fragmented. **Heads up:** on your first
+> session the OS runs this setup automatically before doing anything else — even if you just
+> say "hi" — and it won't skip steps. `SETUP-PLAYBOOK.md` is the
 > detailed manual `onboard` follows; open it only if you want the background or get stuck.
 
 ## What's already inside
