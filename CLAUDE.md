@@ -7,8 +7,8 @@
 > fixed order, no skipping:
 >
 > 1. Plugins — **Superpowers · claude-mem · context-mode** (+ skill-creator)
-> 2. **Obsidian** vault connection
-> 3. **Google Workspace** via the `gws` CLI
+> 2. **Open this folder as an Obsidian vault** (no connector needed)
+> 3. **Connect Google** (Gmail / Calendar / Drive) via Claude's built-in browser connector
 >
 > Only once all of those pass does onboarding continue to the (optional) questions, fill in
 > everything below, and remove this banner. (`SETUP-PLAYBOOK.md` is the manual it follows.)
@@ -59,10 +59,10 @@ listing related `[[wikilinks]]` so nothing is orphaned. **`OS-INDEX.md`** is the
 
 ## Calendar & Google Workspace
 - **Timezone:** {{TIMEZONE}}. **Language:** {{LANGUAGE}}.
-- Google Workspace runs through the official **`gws` CLI** (`@googleworkspace/cli`) — call it
-  via the shell (e.g. `gws calendar ...`, `gws gmail ...`, `gws drive ...`) for Gmail, Calendar, and Drive.
-- When I mention any dated event / meeting / deadline / payment, put it on my calendar via `gws`
-  — but **never guess a date or time; ask me.**
+- Google Workspace runs through **Claude's built-in Google connectors** (Gmail, Calendar, Drive)
+  — use those tools directly. No CLI, no shell.
+- When I mention any dated event / meeting / deadline / payment, put it on my calendar via the
+  Google Calendar connector — but **never guess a date or time; ask me.**
 
 ## Tools & memory (this OS runs on Claude Code)
 - **Superpowers** — disciplined workflows. At session start, the `using-superpowers` skill orients you.

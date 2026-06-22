@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "test -f CLAUDE.md && grep -q 'SETUP NOT COMPLETE' CLAUDE.md && printf '%s' 'SETUP GATE ACTIVE: This AI OS is not set up yet. Before responding to ANY user request this session, run the onboard skill starting at Phase 0. Connect, in this fixed order with NO skipping and WITHOUT asking which to do first: (1) plugins Superpowers + claude-mem + context-mode, (2) Obsidian, (3) Google Workspace via the gws CLI. Only after all pass, continue to the optional onboarding questions.' || true"
+            "command": "test -f CLAUDE.md && grep -q 'SETUP NOT COMPLETE' CLAUDE.md && printf '%s' 'SETUP GATE ACTIVE: This AI OS is not set up yet. Before responding to ANY user request this session, run the onboard skill starting at Phase 0. Do this in order, no skipping and without asking which to do first: (1) install plugins Superpowers + claude-mem + context-mode (slash commands, then restart), (2) open this folder as an Obsidian vault, (3) connect Google (Gmail/Calendar/Drive) via Claude built-in connector in the browser. Only after setup passes, continue to the optional onboarding questions.' || true"
           }
         ]
       }
