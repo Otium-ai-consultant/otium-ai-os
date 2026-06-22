@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "test -f CLAUDE.md && grep -q 'SETUP NOT COMPLETE' CLAUDE.md && printf '%s' 'SETUP GATE ACTIVE: This AI OS is not set up yet. Before responding to ANY user request this session, run the onboard skill starting at Phase 0. Do this in order, no skipping and without asking which to do first: (1) install plugins Superpowers + claude-mem + context-mode (slash commands, then restart), (2) connect Obsidian via the Local REST API MCP (you run claude mcp add for the user after they paste their key), (3) connect Google (Gmail/Calendar/Drive) via Claude built-in connector in the browser. If Node.js is missing, offer to run setup.sh / setup.ps1 first. Only after setup passes, continue to the optional onboarding questions.' || true"
+            "command": "test -f CLAUDE.md && grep -q 'SETUP NOT COMPLETE' CLAUDE.md && printf '%s' 'SETUP GATE ACTIVE: This AI OS is not set up yet. Before responding to ANY user request this session, run the onboard skill starting at Phase 0. Required, in order, no skipping and without asking which to do first: (1) install plugins Superpowers + claude-mem + context-mode (slash commands, then restart), (2) connect Google (Gmail/Calendar/Drive) via Claude built-in connector in the browser. Obsidian works natively (just open the folder as a vault; its Local REST API MCP is an optional power-up). If Node.js is missing, offer to run setup.sh / setup.ps1 first. Only after the required setup passes, continue to the optional onboarding questions.' || true"
           }
         ]
       }

@@ -11,7 +11,7 @@ Workspace.
 1. **Do the two installs in [`INSTALL-FIRST.md`](INSTALL-FIRST.md)** — Claude Code + Node.js
    (~10 min, the only by-hand part). Then open **this folder** in Claude Code.
 2. **Type anything — even "hi".** On a fresh OS the **`onboard`** skill takes over and does setup
-   *for* you, in order: installs its plugins, connects Obsidian, and connects Google in your
+   *for* you, in order: installs its plugins, connects Google in your
    browser (a couple of quick restarts; just keep going). Then it learns about you — **two ways,
    both optional:** answer a few quick questions (skip any), or just **drop a file** (company
    profile, bio, deck, past emails) into the chat and it'll read it.
@@ -29,7 +29,7 @@ Workspace.
 |---|---|
 | `INSTALL-FIRST.md` | The only by-hand part: install Claude Code + Node.js. Start here. |
 | `CLAUDE.md` | The operating manual — the rules your AI follows every session. |
-| `SETUP-PLAYBOOK.md` | The manual `onboard` follows: plugins, Obsidian, Google connector. |
+| `SETUP-PLAYBOOK.md` | The manual `onboard` follows: plugins, Google connector, Obsidian (native + optional REST API). |
 | `aios-intake.md` | The 7 questions `onboard` asks (you can pre-fill it if you like). |
 | `connections.md` | A registry of every system your OS can reach. |
 | `.claude/skills/` | Three ready skills: **onboard**, **grill-me**, **session-handoff**. |

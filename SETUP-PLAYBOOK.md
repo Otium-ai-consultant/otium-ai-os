@@ -12,7 +12,7 @@ tags: [onboarding, setup]
 > **🚀 Fastest path — you barely touch this file.**
 > 1. Do the two installs in **`INSTALL-FIRST.md`** (Claude Code + Node.js).
 > 2. Open this folder in Claude Code and type anything — the **`onboard`** skill runs the rest
->    *for* you: it installs its plugins, connects Obsidian, and connects Google in your browser.
+>    *for* you: it installs its plugins, connects Google in your browser, and sets up Obsidian (native).
 >
 > This playbook is the manual `onboard` follows — read it for the background, to do a step by
 > hand, or if you get stuck. Almost nothing here needs a terminal.
@@ -26,7 +26,7 @@ Just two, both covered step-by-step in **`INSTALL-FIRST.md`**:
 | Need | What it is | Get it |
 |---|---|---|
 | **Claude Code** | The app your AI runs in (Desktop app = no terminal) | claude.com/download |
-| **Node.js 18+** | Plugins + the Obsidian connector (`npx`) need it — installer included | `setup.sh` / `setup.ps1`, or nodejs.org → **LTS** |
+| **Node.js 18+** | Plugins need it (and the optional Obsidian REST API) — installer included | `setup.sh` / `setup.ps1`, or nodejs.org → **LTS** |
 
 You'll also want **Obsidian** (obsidian.md) for the graph view, and a **Google account** on a
 Claude plan that includes connectors (e.g. Pro / Max / Team) for the Google step.
@@ -73,36 +73,30 @@ Then **restart Claude Code** and run `/plugin` to confirm they're enabled.
 
 ---
 
-## Part B — Connect Obsidian via the Local REST API (10 min)
+## Part B — Obsidian (2 min — native by default; live REST API optional)
 
-This links your AI to the **live Obsidian app** through its Local REST API. **Keep Obsidian open**
-while you use the OS — the connector talks to the running app, not just the files. Your AI runs the
-connect command for you; you just grab the key.
+**Default: nothing to connect.** Your AI reads and writes your notes **directly as files**, so it
+works whether Obsidian is open or closed. You just want Obsidian for the graph view:
 
-**Step 1 — Get your Obsidian key.**
-In Obsidian: **Settings → Community plugins → Browse →** install **"Local REST API" →** enable it →
-open its settings → **copy the API Key**. Leave Obsidian running.
+1. Open **Obsidian** → **"Open folder as vault"** → choose **this folder**.
+2. Open **Graph view** to watch your notes link up as the OS fills in.
 
-**Step 2 — Let your AI connect it.** Paste the key into the chat and your AI runs the command below
-for you. (Prefer to run it yourself? It needs Node.js from `INSTALL-FIRST.md`, which includes `npx` — no Homebrew.)
+That's it for most people — no plugin, no key, no terminal.
+
+### Optional power-up — live Local REST API
+Want the AI to use **live Obsidian features** (Dataview, Obsidian's own search, surgical frontmatter
+edits)? Connect the Local REST API — the trade-off is you must **keep Obsidian open** whenever you use the OS.
+
+1. In Obsidian: **Settings → Community plugins → Browse →** install + enable **"Local REST API" →** copy its **API Key**.
+2. Paste the key into the chat — your AI runs this for you (or run it yourself; needs Node.js from `INSTALL-FIRST.md`):
 ```bash
 claude mcp add obsidian -s user \
   -e OBSIDIAN_API_KEY=<YOUR_OBSIDIAN_API_KEY> \
   -- npx -y obsidian-mcp-server@latest
 ```
-> Editing config by hand instead? Add this under `mcpServers` in `~/.claude.json`:
-> ```json
-> "obsidian": {
->   "type": "stdio",
->   "command": "npx",
->   "args": ["-y", "obsidian-mcp-server@latest"],
->   "env": { "OBSIDIAN_API_KEY": "<YOUR_OBSIDIAN_API_KEY>" }
-> }
-> ```
-> Talks to the Local REST API — **no vault path needed**. Default endpoint is the plugin's local
-> port; set `OBSIDIAN_BASE_URL` only if you changed it.
+3. Restart Claude Code (Obsidian still open) and ask *"list my Obsidian notes"* to verify.
 
-**Step 3 — Verify.** With Obsidian still open, restart Claude Code and ask: *"List the files in my Obsidian vault."* If it lists your notes, you're connected. Also open this folder as a vault in Obsidian for the graph view.
+> If keeping Obsidian always-open is a hassle, just skip this — the native default already does everything the OS needs.
 
 ---
 
@@ -155,7 +149,7 @@ Setup's done. Now the AI builds your operating system **for** you.
 | `onboard` skill not available | Confirm you opened Claude Code **in this folder**; the skill is at `.claude/skills/onboard/SKILL.md`. |
 | Plugin / memory / Obsidian errors (`npx` not found) | Make sure **Node.js** is installed — run `setup.sh` / `setup.ps1`, or see `INSTALL-FIRST.md` step 2 — then restart Claude Code. |
 | Google tools don't appear | Connect them via **`/mcp`** or Claude **Connectors**, and make sure your Claude plan includes connectors. Then retry the calendar question. |
-| Obsidian connector returns nothing | Make sure **Obsidian is running**, the **Local REST API** plugin is enabled, and the **key matches**. Restart Claude Code. |
+| Obsidian REST API power-up returns nothing | Only relevant if you enabled it: make sure **Obsidian is running**, **Local REST API** is enabled, and the **key matches**. Restart Claude Code. (The native default needs none of this.) |
 | AI forgets context next session | Confirm **claude-mem** is enabled and **CLAUDE.md** exists in the folder you opened. |
 
 ---

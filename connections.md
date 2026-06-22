@@ -18,10 +18,10 @@ Update `mechanism`, `auth`, and `last checked` as each one goes live.
 | 4. Customers / outside world | {{from Q5}} | not yet connected | — | — |
 | 5. Tasks / work tracking | {{from Q7}} | not yet connected | — | — |
 | 6. Documents / files | {{from Q6}} | not yet connected | — | — |
-| 7. Knowledge / notes | Obsidian (this vault) | obsidian-mcp-server (Local REST API) | API key | — |
+| 7. Knowledge / notes | Obsidian (this vault) | native files (default) · obsidian-mcp-server REST API optional | — | — |
 
 ## Live now (after the playbook)
-- **Obsidian** — `obsidian-mcp-server` MCP via the **Local REST API** plugin (Obsidian must be running). (Part B)
+- **Obsidian** — native: the OS edits the vault files directly (no setup). Optional power-up: `obsidian-mcp-server` via Local REST API (Obsidian must stay open). (Part B)
 - **Google Workspace** — Claude's built-in connectors (Gmail, Calendar, Drive), authorized in the browser. (Part C)
 
 ## Connected

@@ -53,8 +53,8 @@ That's the technical part done. ✅
 2. Open the folder in **Claude Code** (Desktop app: *Open folder*; or `cd` into it and run `claude`).
 3. Type anything — even **"hi"**.
 
-Your AI takes over from here: it installs its own skills, connects Obsidian, helps you connect
-Google in your browser, and organizes your vault. When it asks to do something, just click **Allow**.
+Your AI takes over from here: it installs its own skills, helps you connect Google in your browser,
+and organizes your vault. When it asks to do something, just click **Allow**.
 
 > The hard part is over. Everything past this point happens inside the chat.
 > Stuck on steps 1–2? Reply to OTIUM and we'll do them with you on a quick screen-share.
