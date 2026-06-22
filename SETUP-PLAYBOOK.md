@@ -65,9 +65,9 @@ Then **restart Claude Code** and run `claude plugin list` to confirm they're ins
 - **context-mode** — context efficiency: big files, web pages, and command output processed in a sandbox (~90% fewer tokens on big reads).
 
 ### Bonus power-up (optional)
-```text
+```bash
 # Frontend Design — polished, non-AI-looking UI (only if you build web pages/apps)
-/plugin install frontend-design@claude-plugins-official
+claude plugin install frontend-design@claude-plugins-official
 ```
 `/review` is **built into** Claude Code (v2.1.86+) — no install. Run it to have your AI hunt bugs in code changes.
 
