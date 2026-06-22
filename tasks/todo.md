@@ -14,10 +14,7 @@ any deadline within 3 days, before doing anything else.
 
 ## Active
 
-- [ ] **SETUP-01** Finish AI OS setup — install plugins + connect Obsidian & Google (see SETUP-PLAYBOOK.md)
-  - Deadline: —
-  - Reminders: —
-- [ ] **SETUP-02** Run the `onboard` skill and answer the 7 intake questions
+- [ ] **SETUP-01** Run `/onboard` — it connects your tools first (plugins + Obsidian), then sets up your OS
   - Deadline: —
   - Reminders: —
 

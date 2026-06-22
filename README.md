@@ -9,13 +9,17 @@ Workspace.
 ## How to use this kit
 
 1. **Install Claude Code** (claude.com/claude-code) and open **this folder** in it.
-2. Open **`SETUP-PLAYBOOK.md`** and follow it top to bottom:
-   - **Part A** — install the plugins (skills, memory, context-efficiency).
-   - **Part B** — connect Obsidian.
-   - **Part C** — connect Google Workspace.
-3. Back in Claude Code, run the **`onboard`** skill (type `/onboard` or say *"onboard me"*).
-   It interviews you for ~10 minutes, then builds the rest of your OS automatically.
-4. Ask it: **"What should I focus on this week?"** — that's the moment it clicks.
+2. Run the **`onboard`** skill — type **`/onboard`** or say *"onboard me"*. That's it.
+   `onboard` walks you through everything **in the right order**:
+   - **First** it connects your crucial tools — installs the plugins (skills, memory,
+     context-efficiency) and wires up Obsidian (and Google Workspace if you're ready).
+     It'll ask you to restart Claude Code once or twice; just run `/onboard` again to resume.
+   - **Then** it interviews you for ~10 minutes and builds the rest of your OS automatically.
+3. Ask it: **"What should I focus on this week?"** — that's the moment it clicks.
+
+> Why this order? So the OS is fully connected *before* it starts learning about you — the
+> experience is fluent from minute one instead of fragmented. `SETUP-PLAYBOOK.md` is the
+> detailed manual `onboard` follows; open it only if you want the background or get stuck.
 
 ## What's already inside
 
@@ -30,7 +34,7 @@ Workspace.
 
 ## The three skills you get on day one
 
-- **`onboard`** — sets up your whole OS from a short interview. Run this first.
+- **`onboard`** — sets up your whole OS: connects your tools first, then interviews you. Run this first.
 - **`grill-me`** — get relentlessly interviewed about any plan or idea; it saves everything to a doc so nothing is lost.
 - **`session-handoff`** — a clean end-of-session summary so you can start fresh tomorrow without losing the thread.
 

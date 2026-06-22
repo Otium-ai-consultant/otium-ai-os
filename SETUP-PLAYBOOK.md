@@ -17,8 +17,13 @@ tags: [onboarding, setup]
 
 **Time required:** ~45–60 minutes. Only **Part C (Google)** is genuinely technical — OTIUM can do that part with you on a screen-share if you prefer.
 
-> **Already includes:** this folder ships with `CLAUDE.md` (the rules) and three skills
-> (`onboard`, `grill-me`, `session-handoff`). You just install the tooling below, then run `onboard`.
+> **🚀 Fastest path — just run `/onboard`.** This folder ships with an `onboard` skill that
+> walks you through everything below **in the right order**: it connects your tools first
+> (plugins + Obsidian, optionally Google), restarting as needed, **then** interviews you and
+> builds your OS. Open this folder in Claude Code, type `/onboard`, and follow along.
+>
+> **This playbook is the manual `onboard` follows** — read it for the background, to do the
+> steps by hand, or if you get stuck. (It also ships `grill-me` and `session-handoff` skills.)
 
 ---
 
