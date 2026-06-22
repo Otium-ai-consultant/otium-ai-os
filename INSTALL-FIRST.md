@@ -31,11 +31,15 @@ connector works in step 3 of onboarding).
 
 ---
 
-## 2) Node.js — a small helper a couple of the plugins need
+## 2) Node.js — a helper the plugins + Obsidian connector need
 
-1. Go to **nodejs.org**
-2. Click the big green **LTS** button to download.
-3. Open the downloaded file → **Next → Next → Finish** (just accept the defaults).
+**Easiest — let your AI do it.** After step 3, when you open the folder, just say
+**"install node for me"**. Your AI runs this repo's installer (`setup.sh` on Mac/Linux,
+`setup.ps1` on Windows) and sets up Node + npx for you. **No Homebrew.**
+
+**Or do it yourself**, any one of these:
+- Run the installer — **Mac/Linux:** `bash setup.sh` · **Windows (PowerShell):** `powershell -ExecutionPolicy Bypass -File setup.ps1`
+- Or download from **nodejs.org** → green **LTS** button → open the file → **Next → Next → Finish**.
 
 That's the technical part done. ✅
 
@@ -49,8 +53,8 @@ That's the technical part done. ✅
 2. Open the folder in **Claude Code** (Desktop app: *Open folder*; or `cd` into it and run `claude`).
 3. Type anything — even **"hi"**.
 
-Your AI takes over from here: it installs its own skills, helps you connect Google in your
-browser, and organizes your vault. When it asks to do something, just click **Allow**.
+Your AI takes over from here: it installs its own skills, connects Obsidian, helps you connect
+Google in your browser, and organizes your vault. When it asks to do something, just click **Allow**.
 
 > The hard part is over. Everything past this point happens inside the chat.
 > Stuck on steps 1–2? Reply to OTIUM and we'll do them with you on a quick screen-share.

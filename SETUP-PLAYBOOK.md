@@ -12,7 +12,7 @@ tags: [onboarding, setup]
 > **🚀 Fastest path — you barely touch this file.**
 > 1. Do the two installs in **`INSTALL-FIRST.md`** (Claude Code + Node.js).
 > 2. Open this folder in Claude Code and type anything — the **`onboard`** skill runs the rest
->    *for* you: it installs its plugins, has you open the vault, and connects Google in your browser.
+>    *for* you: it installs its plugins, connects Obsidian, and connects Google in your browser.
 >
 > This playbook is the manual `onboard` follows — read it for the background, to do a step by
 > hand, or if you get stuck. Almost nothing here needs a terminal.
@@ -26,7 +26,7 @@ Just two, both covered step-by-step in **`INSTALL-FIRST.md`**:
 | Need | What it is | Get it |
 |---|---|---|
 | **Claude Code** | The app your AI runs in (Desktop app = no terminal) | claude.com/download |
-| **Node.js 18+** | A helper a couple of plugins need | nodejs.org → **LTS** |
+| **Node.js 18+** | Plugins + the Obsidian connector (`npx`) need it — installer included | `setup.sh` / `setup.ps1`, or nodejs.org → **LTS** |
 
 You'll also want **Obsidian** (obsidian.md) for the graph view, and a **Google account** on a
 Claude plan that includes connectors (e.g. Pro / Max / Team) for the Google step.
@@ -73,16 +73,33 @@ Then **restart Claude Code** and run `/plugin` to confirm they're enabled.
 
 ---
 
-## Part B — Open this folder as an Obsidian vault (2 min)
+## Part B — Connect Obsidian (Local REST API MCP) (10 min)
 
-There's **nothing to connect** — your AI reads and writes your notes directly as files. Obsidian
-just gives you the nice graph view on top.
+This links your AI to Obsidian. **Your AI runs the connect command for you** — you just grab the key.
 
-1. Open **Obsidian** → **"Open folder as vault"** → choose **this folder**.
-2. Open **Graph view** to watch your notes link up as the OS fills in.
+**Step 1 — Get your Obsidian key.**
+In Obsidian: **Settings → Community plugins → Browse →** install **"Local REST API" →** enable it →
+open its settings → **copy the API Key**.
 
-That's it — no plugin, no API key, no terminal. (Your AI keeps the graph alive by writing
-`[[wikilinks]]` and tags into the notes, whether Obsidian is open or not.)
+**Step 2 — Let your AI connect it.** Paste the key into the chat and tell your AI the full path to
+this folder; it runs the command below for you. (Prefer to run it yourself? It needs Node.js from
+`INSTALL-FIRST.md`, which includes `npx` — no Homebrew.)
+```bash
+claude mcp add obsidian -s user \
+  -e OBSIDIAN_API_KEY=<YOUR_OBSIDIAN_API_KEY> \
+  -- npx -y mcp-obsidian "/ABSOLUTE/PATH/TO/THIS/FOLDER"
+```
+> Editing config by hand instead? Add this under `mcpServers` in `~/.claude.json`:
+> ```json
+> "obsidian": {
+>   "type": "stdio",
+>   "command": "npx",
+>   "args": ["-y", "mcp-obsidian", "/ABSOLUTE/PATH/TO/THIS/FOLDER"],
+>   "env": { "OBSIDIAN_API_KEY": "<YOUR_OBSIDIAN_API_KEY>" }
+> }
+> ```
+
+**Step 3 — Verify.** Restart Claude Code and ask: *"List the files in my Obsidian vault."* If it lists your notes, you're connected. Also open this folder in Obsidian (*Open folder as vault*) for the graph view.
 
 ---
 
@@ -133,9 +150,9 @@ Setup's done. Now the AI builds your operating system **for** you.
 |---|---|
 | `/plugin install` can't find the plugin | Re-run the matching `marketplace add` line first (for claude-mem / context-mode), then restart Claude Code. |
 | `onboard` skill not available | Confirm you opened Claude Code **in this folder**; the skill is at `.claude/skills/onboard/SKILL.md`. |
-| Plugin install errors / memory not working | Make sure **Node.js 18+** is installed (`INSTALL-FIRST.md` step 2), then restart Claude Code. |
+| Plugin / memory / Obsidian errors (`npx` not found) | Make sure **Node.js** is installed — run `setup.sh` / `setup.ps1`, or see `INSTALL-FIRST.md` step 2 — then restart Claude Code. |
 | Google tools don't appear | Connect them via **`/mcp`** or Claude **Connectors**, and make sure your Claude plan includes connectors. Then retry the calendar question. |
-| Notes don't show in Obsidian | Make sure you did **"Open folder as vault"** on **this** folder. The AI still edits the files even if Obsidian is closed. |
+| Obsidian connector returns nothing | Confirm **Local REST API** is enabled, the **key matches**, and the **vault path is absolute** (no `~`). Restart Claude Code. |
 | AI forgets context next session | Confirm **claude-mem** is enabled and **CLAUDE.md** exists in the folder you opened. |
 
 ---

@@ -18,10 +18,10 @@ Update `mechanism`, `auth`, and `last checked` as each one goes live.
 | 4. Customers / outside world | {{from Q5}} | not yet connected | — | — |
 | 5. Tasks / work tracking | {{from Q7}} | not yet connected | — | — |
 | 6. Documents / files | {{from Q6}} | not yet connected | — | — |
-| 7. Knowledge / notes | Obsidian (this vault) | files on disk — edited directly (no MCP) | — | — |
+| 7. Knowledge / notes | Obsidian (this vault) | mcp-obsidian (Local REST API) | API key | — |
 
 ## Live now (after the playbook)
-- **Obsidian** — this folder opened as a vault; the OS edits the notes directly (no MCP). (Part B)
+- **Obsidian** — `mcp-obsidian` MCP (Local REST API), points at this folder. (Part B)
 - **Google Workspace** — Claude's built-in connectors (Gmail, Calendar, Drive), authorized in the browser. (Part C)
 
 ## Connected

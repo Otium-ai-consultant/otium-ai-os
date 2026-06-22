@@ -7,7 +7,7 @@
 > fixed order, no skipping:
 >
 > 1. Plugins — **Superpowers · claude-mem · context-mode** (+ skill-creator)
-> 2. **Open this folder as an Obsidian vault** (no connector needed)
+> 2. **Connect Obsidian** (Local REST API MCP — the AI runs the command for you)
 > 3. **Connect Google** (Gmail / Calendar / Drive) via Claude's built-in browser connector
 >
 > Only once all of those pass does onboarding continue to the (optional) questions, fill in
