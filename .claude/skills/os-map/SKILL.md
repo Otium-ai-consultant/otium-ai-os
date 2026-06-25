@@ -15,17 +15,17 @@ The output is two things:
 
 ## Today's context
 
-- **Date:** !`date +%Y-%m-%d`
+- **Date:** today's date (already in your session context — no shell call needed; works on any OS)
 - **OS root:** the current working directory (the folder containing `CLAUDE.md`, `context/`, `connections.md`)
 
 ## Execution
 
 ### Step 1: Walk the OS
 
-From the OS root, inventory (skip `.git/`, `node_modules/`, `.next/`, `.DS_Store`):
+From the OS root, inventory (skip `.git/`, `node_modules/`, `.next/`, and OS junk like `.DS_Store` / `Thumbs.db` / `desktop.ini`):
 
 - **Top-level folders + files** — `context/`, `references/`, `decisions/`, `projects/`, `templates/`, `tasks/`, `brainstorms/`, `archives/`, `Transition/`, plus root `*.md`. (Index any extra folders an instance has grown, too.)
-- **For each `context/*.md` and `references/*.md`:** filename, one-line purpose (read the first heading / first sentence — do NOT read whole files), and last-modified date (`stat` or `ls -l`).
+- **For each `context/*.md` and `references/*.md`:** filename, one-line purpose (read the first heading / first sentence — do NOT read whole files), and last-modified date (use your file-listing tool, or `git log -1 --format=%cs -- <file>` — both work on any OS).
 - **Skills:** `.claude/skills/*/SKILL.md` — name + one-line description (frontmatter only, don't read bodies).
 - **Agents:** `.claude/agents/*.md` if present.
 - **Connections:** parse `connections.md` — domains, mechanism, last-checked dates.

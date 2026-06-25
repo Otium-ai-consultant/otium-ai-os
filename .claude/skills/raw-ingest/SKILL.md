@@ -18,7 +18,7 @@ If a RAW item is actually a short fact / a person / a decision / a project → h
 
 ## Today's context
 
-- **Date:** !`date +%Y-%m-%d`
+- **Date:** today's date (already in your session context — no shell call needed; works on any OS)
 - **Source folder:** `Transition/RAW/`
 - **OS root:** the current working directory
 
@@ -81,7 +81,7 @@ Drop a section only if it would be empty. Keep bullets terse and in the OS voice
 
 ### Mode A — Ingest the whole RAW folder (default)
 
-1. **List** every clip in `Transition/RAW/`, **ignoring** `.gitkeep`, `.DS_Store`, `_README.md`.
+1. **List** every clip in `Transition/RAW/`, **ignoring** `.gitkeep`, `_README.md`, and OS junk (`.DS_Store`, `Thumbs.db`, `desktop.ini`).
    - If empty → tell the user "Transition/RAW is empty, nothing to ingest" and stop.
 2. **Scan + distill** each clip with context-mode tools: pull title, `source` URL, clipped date, and the meaningful body. Classify via the routing map.
 3. **Dedup check.** Before creating a note, search `references/ai-knowledge/` (and the rest of `references/`) for an existing note on the same topic. If one exists → plan to **merge** the new signal in (update `updated:`, keep both sources) rather than create a duplicate.

@@ -31,8 +31,8 @@ This is the **installer for the whole OS**, and it runs in two phases — **in t
 
 Run these checks first — they exist only so re-runs resume cleanly, never to ask the user what to do. Show a short ✓/▢ status, then immediately work each ▢ item in order:
 
-- **Node.js present?** `command -v node` (Node also provides `npx`, used by the plugins and the optional Obsidian REST API). If missing, **offer to install it for them** by running this repo's installer — `bash setup.sh` (macOS/Linux) or `powershell -ExecutionPolicy Bypass -File setup.ps1` (Windows). Then have them reopen Claude Code and re-run `/onboard`. (Manual alternative: `INSTALL-FIRST.md` step 2.)
-- **Plugins:** read `~/.claude/plugins/installed_plugins.json` → look for keys containing `superpowers`, `claude-mem`, `context-mode` (and `skill-creator`).
+- **Node.js present?** check whether `node -v` runs (cross-OS — works in any shell; if it errors, Node isn't installed). Node also provides `npx`, used by the plugins and the optional Obsidian REST API. If missing, **offer to install it for them** by running this repo's installer — `bash setup.sh` (macOS/Linux) or `powershell -ExecutionPolicy Bypass -File setup.ps1` (Windows). Then have them reopen Claude Code and re-run `/onboard`. (Manual alternative: `INSTALL-FIRST.md` step 2.)
+- **Plugins:** read `~/.claude/plugins/installed_plugins.json` (Windows: `%USERPROFILE%\.claude\plugins\installed_plugins.json`) → look for keys containing `superpowers`, `claude-mem`, `context-mode` (and `skill-creator`).
 - **Google:** are Claude's Google connector tools available this session (Gmail / Google Calendar / Google Drive)? If yes, Google is connected. If not, it isn't yet.
 - **Obsidian:** native by default (nothing to verify). If an `"obsidian"` entry already exists under `mcpServers` in `~/.claude.json`, the optional REST API power-up is already on.
 

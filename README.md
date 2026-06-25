@@ -9,7 +9,8 @@ Workspace.
 ## How to use this kit
 
 1. **Do the two installs in [`INSTALL-FIRST.md`](INSTALL-FIRST.md)** — Claude Code + Node.js
-   (~10 min, the only by-hand part). Then open **this folder** in Claude Code.
+   (~10 min, the only by-hand part). **Works on Windows and macOS** — the installer auto-detects
+   (`setup.ps1` on Windows, `setup.sh` on Mac/Linux). Then open **this folder** in Claude Code.
 2. **Type anything — even "hi".** On a fresh OS the **`onboard`** skill takes over and does setup
    *for* you, in order: installs its plugins, connects Google in your
    browser (a couple of quick restarts; just keep going). Then it learns about you — **two ways,

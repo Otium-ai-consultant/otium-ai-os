@@ -13,7 +13,7 @@ First run is the baseline. Re-run weekly to watch the score climb. That's the co
 
 ## Today's context
 
-- **Date:** !`date +%Y-%m-%d`
+- **Date:** today's date (already in your session context — no shell call needed; works on any OS)
 - **Project root:** the current working directory
 
 ## The Four Cs (scored 25 each = 100 total)

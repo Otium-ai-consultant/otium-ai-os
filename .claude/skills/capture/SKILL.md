@@ -13,7 +13,7 @@ This is the skill that enforces the CLAUDE.md rule *"sort whatever I drop into t
 
 ## Today's context
 
-- **Date:** !`date +%Y-%m-%d`
+- **Date:** today's date (already in your session context — no shell call needed; works on any OS)
 - **OS root:** the current working directory
 
 ## The routing map

@@ -14,7 +14,7 @@ Long interviews fill up context. If you hold answers only in your head, you will
 ## Setup (do this BEFORE the first question)
 
 1. **Create the capture file** at `brainstorms/{YYYY-MM-DD}-{topic-slug}.md` (create the `brainstorms/` folder if it doesn't exist). Every brainstorm capture lives here. One predictable home, regardless of topic. Do NOT scatter captures into project folders. If a session later produces a polished deliverable (a plan, a map, a spec), that artifact can move into the relevant `projects/` folder, but the raw capture always stays in `brainstorms/`.
-   - Get today's date with `date +%F` (Bash) if you don't already know it.
+   - Use today's date (already in your session context — no shell call needed; works on any OS).
 2. **Create the file immediately** with a header: title, date, the goal of the session, and an empty "Open flags" section.
 3. **Tell the user where you're saving**, in one line. Then ask Q1.
 
