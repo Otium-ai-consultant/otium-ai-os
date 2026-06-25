@@ -24,6 +24,12 @@ create a note that should be findable.
 
 ## References
 - [[voice]] — how I write / want the OS to sound
+- [[build-with-claude-code]] — plain-English guide to building & deploying apps here
+
+## Skills
+- `onboard` · `audit` · `level-up` · `session-handoff` — setup & weekly rhythm
+- `capture` · `raw-ingest` · `os-map` · `grill-me` — capture & knowledge
+- `gcal-manager` · `frontend-design` — calendar & app-building
 
 ## Working files
 - [[todo]] — task list

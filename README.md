@@ -32,13 +32,27 @@ Workspace.
 | `SETUP-PLAYBOOK.md` | The manual `onboard` follows: plugins, Google connector, Obsidian (native + optional REST API). |
 | `aios-intake.md` | The 7 questions `onboard` asks (you can pre-fill it if you like). |
 | `connections.md` | A registry of every system your OS can reach. |
-| `.claude/skills/` | Three ready skills: **onboard**, **grill-me**, **session-handoff**. |
+| `.claude/skills/` | Ten ready skills (see the list below) — setup, capture, knowledge, calendar, and app-building. |
 | `context/` `references/` `decisions/` `projects/` `tasks/` … | The folders your OS fills as it learns. |
 
-## The three skills you get on day one
+## The skills you get on day one
 
+**Setup & rhythm**
 - **`onboard`** — sets up your whole OS: connects your tools first, then learns about you (answer a few questions or drop a file — both optional). Run this first.
-- **`grill-me`** — get relentlessly interviewed about any plan or idea; it saves everything to a doc so nothing is lost.
+- **`audit`** — scores your setup against the Four Cs and hands you the top-3 fixes. Run it weekly to watch the score climb.
+- **`level-up`** — a weekly interview that finds one thing worth automating and ships it.
 - **`session-handoff`** — a clean end-of-session summary so you can start fresh tomorrow without losing the thread.
+
+**Capture & knowledge**
+- **`capture`** — drop a thought, fact, file, or link and it files it in the right place automatically.
+- **`raw-ingest`** — turn long articles / web clips into clean, sourced knowledge notes.
+- **`os-map`** — the librarian: keeps your index current and flags anything stale or misfiled.
+- **`grill-me`** — get relentlessly interviewed about any plan or idea; it saves everything to a doc so nothing is lost.
+
+**Doing the work**
+- **`gcal-manager`** — notices dated events in your chat and puts them on your Google Calendar, cleanly.
+- **`frontend-design`** — builds real, distinctive web pages, dashboards, and small apps. Paired with **`references/build-with-claude-code.md`**, a plain-English guide to building and deploying apps here even if you don't code.
+
+> Build more skills any time with **Skill Creator** — that's how this OS grows.
 
 > Stuck on any step? The two installs in `INSTALL-FIRST.md` are the only technical bit — reply to OTIUM and we'll do them with you on a quick screen-share.

@@ -41,7 +41,7 @@ Lead with what needs action. You're a thought partner, not a vending machine.
 
 ## Where things live
 - `context/` — about me, the business, team, priorities
-- `references/` — frameworks, my writing voice (`voice.md`), tool/API notes
+- `references/` — frameworks, my writing voice (`voice.md`), tool/API notes, and `build-with-claude-code.md` (how to build apps here)
 - `decisions/log.md` — append-only record of decisions and why
 - `projects/` — index of my clients / projects (cards, not code)
 - `templates/` — reusable docs (invoices, briefs, etc.)
@@ -71,9 +71,22 @@ listing related `[[wikilinks]]` so nothing is orphaned. **`OS-INDEX.md`** is the
 - **context-mode** — efficient handling of large files, web fetches, and long command output.
 
 ## Skills shipped with this OS
+
+**Setup & rhythm**
 - **`onboard`** — set up / refresh the OS from your answers. *(Run this first.)*
-- **`grill-me`** — relentless interview that extracts a plan or idea into a saved doc.
+- **`audit`** — score your setup against the Four Cs; get the top-3 fixes by leverage. Run weekly.
+- **`level-up`** — weekly 3Ms interview that finds one automation and ships it.
 - **`session-handoff`** — end-of-session summary so you can `/clear` without losing continuity.
+
+**Capture & knowledge**
+- **`capture`** — drop a thought / fact / file / link and it files it to the right home.
+- **`raw-ingest`** — turn long web clips / pasted articles into clean, sourced knowledge notes.
+- **`os-map`** — librarian: regenerates `OS-INDEX.md` and flags what's stale or out of place.
+- **`grill-me`** — relentless interview that extracts a plan or idea into a saved doc.
+
+**Doing the work**
+- **`gcal-manager`** — detects dated events from chat and writes them to your Google Calendar.
+- **`frontend-design`** — build distinctive, production-grade web UIs (pages, dashboards, apps). Pair with `references/build-with-claude-code.md`.
 
 > Build more skills any time with **Skill Creator** — that's how this OS grows.
 
